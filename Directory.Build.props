@@ -1,0 +1,20 @@
+<Project>
+  <!--
+    Auto-imported by MSBuild into every project in this repository, so lesson projects stay tiny -
+    a new sample or test project needs little more than an OutputType.
+
+    If a subject ever needs different settings, add a Directory.Build.props in that subject's folder
+    and have it Import this one explicitly: MSBuild imports only the *nearest* file, so without that
+    import these settings are silently lost.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+
+    <!-- Learning code: warnings are part of the curriculum, so make them visible rather than noise. -->
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+  </PropertyGroup>
+</Project>
