@@ -48,8 +48,7 @@ v += a * dt        // then update velocity
 
 This is what everyone writes first. It's also subtly wrong in a way that
 matters: it consistently **adds energy** to oscillating systems. A spring
-simulated this way gains amplitude every cycle until it explodes. Included so
-you can *see* it fail — do not ship it.
+simulated this way gains amplitude every cycle until it explodes.
 
 ### Semi-implicit (symplectic) Euler — the one engines use
 

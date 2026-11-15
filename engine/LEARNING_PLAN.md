@@ -23,8 +23,7 @@ Same contract as the physics plan:
 
 - **You write the code.** Each lesson: the theory (derived, not quoted), a small spec, and measurable
   checkpoints. You implement it and say when it runs.
-- **I review and explain.** The bugs are the curriculum. A cube that renders inside-out teaches
-  winding order better than any diagram.
+- **I review and explain.**
 - **Every lesson ends with something you can see or measure**, and most can become a toolkit example.
 - **Verification is against Stride wherever possible.** This is the trick that makes the plan work:
   render the same scene in LiteEngine and in Stride, and compare. A checkpoint that says
@@ -163,8 +162,8 @@ from above.
 ### Lesson 11 — Integrating a simulation
 This is where this plan and the physics plan join.
 
-- Who owns the transform, and why the answer is "physics, one-way". You met this the hard way; now
-  derive why every engine converges on it.
+- Who owns the transform, and why the answer is "physics, one-way". Derive why every engine
+  converges on it.
 - Fixed-step simulation inside a variable-rate renderer: interpolation, and the sleeping-body
   optimisation that makes transforms stop updating.
 - Kinematic vs dynamic vs static as an *ownership* question rather than a physics one.
@@ -174,8 +173,6 @@ This is where this plan and the physics plan join.
 ## Phase G — The rest of the engine
 
 ### Lesson 12 — Content and the asset pipeline
-You already fight this daily; this lesson makes it make sense.
-
 - Why engines *compile* assets: runtime formats are not authoring formats. GPU texture compression,
   mesh layouts, shader permutations.
 - Build-time vs load-time vs run-time costs; content hashing and incremental builds.
@@ -197,8 +194,7 @@ The synthesis lesson: read the engine with everything above in hand.
 - Turn the strongest lessons into toolkit examples (several map almost directly).
 - Write the page that does not exist: *"What Stride is doing when you call
   `game.Run(new SceneSetup3D())`"*.
-- With Phase C + Lesson 13 done, engine-side contributions stop being intimidating — you already
-  landed one this year in `Stride.AssetCompiler.targets`.
+- Engine-side contributions to Stride, with Phase C and Lesson 13 done.
 
 ---
 

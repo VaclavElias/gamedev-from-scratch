@@ -24,8 +24,6 @@ came to it as a .NET developer rather than a game developer. The C# was never th
 was - what a frame actually is, what the GPU does with a matrix, why engines are shaped the way they
 are.
 
-Reading about it did not stick. Building it does.
-
 ## How a subject is laid out
 
 ```
@@ -52,7 +50,6 @@ Subjects are independent, but they are allowed to meet: the engine plan hosts `L
 - **Checkpoints are falsifiable.** If a lesson cannot be verified against maths, a conservation law,
   or a reference implementation, the lesson is not finished being designed.
 - **float, not double** - matching real engines, precision problems included.
-- The bugs are the curriculum. Sinking boxes and inside-out cubes teach more than any article.
 
 ## Shared notes
 

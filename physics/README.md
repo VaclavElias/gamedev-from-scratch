@@ -36,10 +36,8 @@ dotnet run --project physics/samples/Lesson01.Integration
 dotnet test physics/tests/LitePhysics.Tests
 ```
 
-## The rule that makes this work
+## Checkpoints
 
 Every checkpoint is verified against something that cannot be argued with: a closed-form solution, a
 conservation law, or a reference implementation. Free fall has an exact answer. So does a spring. A
 ball dropped from height `h` with restitution `e` returns to `e²·h`.
-
-"Looks right" is not a checkpoint.

@@ -12,8 +12,7 @@ Stride Community Toolkit example.
   derivations, not just formulas), a small spec of what to implement, and
   measurable checkpoints. You implement it in this repo and say when it runs.
 - **I review and explain.** Then I review the code, run it, and we
-  debug the physics together. The bugs are the curriculum — sinking boxes and
-  jittering stacks teach more than any article.
+  debug the physics together.
 - **Every lesson ends with a demo** — first as console output/tests, later
   rendered — that can be turned into a community example.
 - **Verification is analytic where possible.** Free fall has a closed-form
@@ -89,7 +88,7 @@ The geometric core of the engine.
 - **Checkpoint**: a table-driven test suite of shape pairs with known
   penetrations/normals; all pass.
 
-## Phase C — Collision response (the famous part)
+## Phase C — Collision response
 
 ### Lesson 5 — Impulse resolution
 The single most important derivation in game physics.
@@ -119,10 +118,8 @@ signature contribution.
 - Penetration recovery: **Baumgarte bias vs position correction**, allowed
   **slop**; accumulated impulses and clamping; **warm starting**.
 - **Checkpoint**: a 10-box stack stands still without jitter or sinking.
-  (This is the "hello world" of solver quality — expect to fail it first,
-  that's the lesson.) Without rotation this is the easy half: the boxes
-  cannot rock, so the stack is close to a one-dimensional problem. Lesson 8
-  runs it again.
+  Without rotation this is the easy half: the boxes cannot rock, so the stack
+  is close to a one-dimensional problem. Lesson 8 runs it again.
 - **Answer key**: `box2d-lite`, which is this lesson in about a thousand
   lines. Box2D.NET ports Box2D 3, whose solver has since moved to soft
   constraints and sub-stepping; read it afterwards, as "what changed since".

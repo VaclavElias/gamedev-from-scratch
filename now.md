@@ -41,8 +41,7 @@ The rest of each plan: [physics](physics/LEARNING_PLAN.md) · [engine](engine/LE
 
 ## What I have learned
 
-One line per finished lesson, in my own words, written when the lesson closes. If I cannot write the
-line, the lesson is not finished.
+One line per finished lesson, in my own words, written when the lesson closes.
 
 | Date | Lesson | The one thing |
 |---|---|---|

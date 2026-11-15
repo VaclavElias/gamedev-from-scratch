@@ -33,13 +33,11 @@ samples/LessonXX.Name/    one runnable demo per lesson
 tests/LiteEngine.Tests/   maths, transforms, determinism
 ```
 
-## The trick that makes this work
+## Checkpoints
 
-Stride is right there, and it is correct. So checkpoints can be verified *against a real engine*
-rather than against intuition: a transform hierarchy that matches `TransformComponent.WorldMatrix` to
-float tolerance, a projected point that matches Stride's own, a frame that renders the same scene.
-
-"Why does mine differ?" is the most productive question in the plan.
+Checkpoints are verified *against a real engine*, Stride, rather than against intuition: a transform
+hierarchy that matches `TransformComponent.WorldMatrix` to float tolerance, a projected point that
+matches Stride's own, a frame that renders the same scene.
 
 ## Where it meets the physics subject
 
