@@ -26,7 +26,7 @@ Add to it whenever a term costs more than a moment to recall.
 | **Clip space** | After the projection matrix, before the perspective divide. Homogeneous — the `w` still matters. |
 | **NDC** | Normalised device coordinates: clip space divided by `w`. x,y in [-1,1]; z in [0,1] in D3D convention. |
 | **Screen space** | NDC mapped to pixels via the viewport. |
-| **Basis vectors** | The columns of a transform matrix — literally where the object's x, y, z axes point in the parent space. |
+| **Basis vectors** | Where the object's x, y, z axes point in the parent space. A transform matrix holds them: as its columns in the column-vector convention, as its rows in the row-vector convention of Stride and `System.Numerics`. |
 
 ## Rendering
 
@@ -36,7 +36,7 @@ Add to it whenever a term costs more than a moment to recall.
 | **Winding order** | Vertex order (clockwise vs counter-clockwise) which defines a triangle's facing, and therefore what gets culled. |
 | **Backface culling** | Discarding triangles facing away from the camera — roughly half the work, for free. |
 | **Z-buffer / depth buffer** | Per-pixel depth, so nearer fragments win regardless of draw order. |
-| **Perspective-correct interpolation** | Interpolating attributes in `1/w` so textures do not warp under perspective. |
+| **Perspective-correct interpolation** | Interpolating `attribute/w` and `1/w`, then dividing per pixel, so textures do not warp under perspective. |
 | **Draw call** | One instruction to the GPU to render a batch. Historically the thing you counted. |
 | **Vertex / pixel (fragment) shader** | The programmable stages: per-vertex transform, per-pixel colour. |
 | **Normal** | Direction a surface faces. Hard-edged meshes duplicate vertices so one position can carry several normals. |

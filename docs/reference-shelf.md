@@ -12,15 +12,21 @@ a library. Anything that has not earned its place through an actual lesson does 
 
 ## Physics
 
-In reading order for `LEARNING_PLAN.md`:
+In reading order for `physics/LEARNING_PLAN.md`:
 
-- **Randy Gaul, [*How to Create a Custom 2D Physics Engine*](https://gamedevelopment.tutsplus.com/series/how-to-create-a-custom-physics-engine--gamedev-12715)**
+- **Randy Gaul, [*How to Create a Custom 2D Physics Engine*](https://code.tutsplus.com/series/how-to-create-a-custom-physics-engine--gamedev-12715)**
   — four-part tutorial; the companion for Phases A–C.
 - **Erin Catto, [GDC slides](https://box2d.org/publications/)** — *Sequential Impulses* for Lesson 7,
   the rest for Lessons 8–9. Dense, and worth the effort; this is the source material for how modern
   2D solvers work.
 - **Ian Millington, *Game Physics Engine Development*** — the book-length version of Phases A–D.
-- **[Box2D.NET](https://github.com/ikpil/Box2D.NET) source** — the answer key from Lesson 4 onward.
+- **Erin Catto, [box2d-lite](https://github.com/erincatto/box2d-lite)** — the small solver from the 2006
+  talk: sequential impulses, a bias for penetration, accumulated impulses and warm starting in about
+  a thousand lines. The answer key for Lessons 5–7.
+- **[Box2D.NET](https://github.com/ikpil/Box2D.NET) source** — the answer key for collision detection, from Lesson 4 onward.
+  It ports Box2D 3, whose solver has moved on to soft constraints and sub-stepping
+  ([*Solver2D*](https://box2d.org/posts/2024/02/solver2d/) explains why), so read its solver as
+  "what changed since", not as the answer to Lesson 7.
   Read it *after* attempting each lesson, never before.
 - **[BepuPhysics v2](https://github.com/bepu/bepuphysics2) source + docs** — Lesson 10, the
   data-oriented architecture chapter.

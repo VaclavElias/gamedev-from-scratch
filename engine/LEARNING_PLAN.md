@@ -4,7 +4,7 @@ Goal: understand how a game engine actually works by **building a lite engine fr
 ("LiteEngine"), using **Stride's source as the reference text** and the **Stride Community Toolkit as
 the payoff**, so that every lesson deepens the engine knowledge behind the toolkit you maintain.
 
-Companion to [LEARNING_PLAN.md](LEARNING_PLAN.md) (2D physics). That plan goes deep on one subsystem;
+Companion to the [physics plan](../physics/LEARNING_PLAN.md) (2D physics). That plan goes deep on one subsystem;
 this one goes broad across the engine and then meets it — Phase F is where they join.
 
 ## Who this is written for
@@ -15,14 +15,14 @@ A senior C#/.NET engineer who maintains a game engine's toolkit but has not buil
 - **The domain is the gap**: what a frame *is*, what the GPU actually does with a matrix, why engines
   are shaped the way they are.
 - **Your Stride API knowledge is an asset, not a shortcut.** Repeatedly the lesson will be "you already
-  call `game.Create3DPrimitive(...)` — here is what it does, and now you have written it yourself".
+  call `game.CreatePrimitive(...)` — here is what it does, and now you have written it yourself".
 
 ## How we work
 
 Same contract as the physics plan:
 
 - **You write the code.** Each lesson: the theory (derived, not quoted), a small spec, and measurable
-  checkpoints. You implement and push.
+  checkpoints. You implement it and say when it runs.
 - **I review and explain.** The bugs are the curriculum. A cube that renders inside-out teaches
   winding order better than any diagram.
 - **Every lesson ends with something you can see or measure**, and most can become a toolkit example.
@@ -30,7 +30,7 @@ Same contract as the physics plan:
   render the same scene in LiteEngine and in Stride, and compare. A checkpoint that says
   "matches Stride's output" is falsifiable in a way that "looks right" never is.
 
-Repo layout (mirroring the physics repo):
+Layout, relative to `engine/` (the same shape as `physics/`):
 
 ```
 src/LiteEngine/            engine library (grows lesson by lesson)
@@ -44,11 +44,13 @@ docs/lessons/              your theory notes per lesson
 ## Phase A — The frame
 
 ### Lesson 1 — The loop
-Everything in an engine hangs off one `while (true)`.
+Everything in an engine hangs off one `while (true)`. Do the physics plan's Lesson 2 first: it
+builds the accumulator, and this lesson puts the rest of the loop around it.
 
 - Input → update → render, and why that order is not arbitrary.
 - **Variable vs fixed timestep**, the accumulator pattern, and render interpolation. You have already
-  built this once in `Example19_Jitter2Physics`; here you derive *why* the alternatives fail.
+  built this once in the toolkit's `E06_Jitter2` example, and the physics plan's Lesson 2 builds it
+  again for `LitePhysics`; here you derive *why* the alternatives fail and put the loop around it.
 - Where the time actually goes: vsync, present, frame pacing, and why "60 FPS" is a latency
   statement as much as a throughput one.
 - **Checkpoints**:
@@ -64,7 +66,11 @@ Everything in an engine hangs off one `while (true)`.
   float math makes it hard.
 - Mutable world state vs the frame that reads it; double buffering; why "read last frame, write this
   frame" removes whole classes of order-dependence bugs.
-- **Checkpoint**: same inputs, jittered frame times, bit-identical state after 10 simulated seconds.
+- **Checkpoint**: a handful of objects that each steer towards the others' positions. Update them
+  in place, in two different orders, and show that the states differ after 600 steps. Then
+  double-buffer the state (read last step, write this step) and show that every order gives a
+  bit-identical result. The jittered-frame-time determinism check is the physics plan's Lesson 2
+  and is not repeated here.
 
 ## Phase B — Space
 
@@ -73,8 +79,10 @@ The goal is intuition, not algebra you can already do.
 
 - Dot product as projection, cross product as area/normal — with the sign conventions that will
   later flip your triangles inside out.
-- A matrix as a **change of coordinate frame**: the columns *are* the basis vectors. Once you see
-  that, "model → world → view → clip" stops being a magic incantation.
+- A matrix as a **change of coordinate frame**: it *holds* the basis vectors — as its columns in the
+  column-vector convention of most textbooks, as its **rows** in the row-vector convention of Stride
+  and `System.Numerics` (`Matrix.Right` is `M11, M12, M13`; the translation is `M41, M42, M43`). Once
+  you see that, "model → world → view → clip" stops being a magic incantation.
 - Row-vector vs column-vector conventions, and why Stride's `Matrix` multiplies the way it does.
 - **Checkpoint**: implement `Matrix4x4` operations by hand; property-test against
   `System.Numerics` and against `Stride.Core.Mathematics.Matrix` — including a test that catches a
@@ -96,18 +104,18 @@ from above.
 
 ### Lesson 5 — From triangle to screen
 - The transform chain, one stage at a time: model → world → view → **clip** → perspective divide →
-  **NDC** → viewport. You have already read this code in
-  `EntityDebugSceneRenderer` — now you write it.
+  **NDC** → viewport. You have already read this code in the toolkit's
+  `EntityInfoRenderer` (`ScreenTextDrawer.TryProject`) — now you write it.
 - Why the divide by `w` *is* perspective; why clip space exists at all rather than dividing early.
 - Rasterizing a triangle: edge functions, barycentric coordinates, top-left fill rules.
-- **Checkpoint**: a spinning wireframe cube in a PNG sequence, with a projected point verified by
-  hand-computed arithmetic.
+- **Checkpoint**: a spinning wireframe cube in an image sequence (BMP or PPM needs no encoder; PNG
+  needs only `System.IO.Compression`), with a projected point verified by hand-computed arithmetic.
 
 ### Lesson 6 — Depth, winding, and interpolation
 - The z-buffer, and why painter's algorithm fails.
 - Backface culling and winding order — deliberately reverse it and see the classic inside-out cube.
-- Perspective-**correct** interpolation: interpolate `1/w`, not the attribute, and see the wrong
-  version's warped texture.
+- Perspective-**correct** interpolation: interpolate `attribute/w` and `1/w` across the triangle and
+  divide per pixel, not the attribute itself, and see the wrong version's warped texture.
 - **Checkpoint**: two intersecting cubes render correctly from any angle; a checkerboard-textured
   floor shows correct perspective (and you can produce the wrong one on demand).
 
@@ -115,7 +123,7 @@ from above.
 - Surface normals; Lambert diffuse derived from the dot product; why normals need the
   **inverse-transpose** under non-uniform scale (and what breaks if you skip it).
 - Flat vs smooth shading — the same hard-vs-smooth normal distinction that makes
-  `Example13_MeshOutline` show gaps on a cube.
+  the toolkit's `E09_3D_MeshOutline` show gaps on a cube.
 - **Checkpoint**: a lit sphere; a lit cube with hard edges; explain from your own code why the mesh
   outline technique behaves differently on each.
 
@@ -187,25 +195,17 @@ The synthesis lesson: read the engine with everything above in hand.
 ## Phase H — Payoff
 
 - Turn the strongest lessons into toolkit examples (several map almost directly).
-- Write the page that does not exist: *"What Stride is doing when you call `SetupBase3DScene()`"*.
+- Write the page that does not exist: *"What Stride is doing when you call
+  `game.Run(new SceneSetup3D())`"*.
 - With Phase C + Lesson 13 done, engine-side contributions stop being intimidating — you already
   landed one this year in `Stride.AssetCompiler.targets`.
 
 ---
 
-## Reference shelf (in reading order)
+## Reference shelf
 
-- **Dmitry Sokolov, *tinyrenderer*** — the software-rasterizer course. Phase C's spine; do it in C#.
-- **Jason Gregory, *Game Engine Architecture*** — the canonical survey. Read Phase A/B chapters early,
-  the rest as reference.
-- **Scratchapixel** — rasterization and perspective, derived properly. Companion to Lessons 5–6.
-- **Akenine-Möller et al., *Real-Time Rendering*** — the rendering reference. Dip in, don't read cover
-  to cover.
-- **LearnOpenGL** — concepts transfer cleanly even though the API differs; good for Lesson 8.
-- **Glenn Fiedler, *Fix Your Timestep*** — Lesson 1 (already on the physics shelf).
-- **Stride source** — the answer key from Lesson 1 onward. Especially `Stride.Games/GameBase.cs`,
-  `Stride.Engine`, `Stride.Rendering`, `Stride.Graphics.Regression`.
-- **Stride Community Toolkit source** — your own code, re-read as a student rather than a maintainer.
+The reading list, in the order it becomes useful, is the Engine section of the shared
+[reference shelf](../docs/reference-shelf.md).
 
 ## Ground rules
 
@@ -222,12 +222,9 @@ The synthesis lesson: read the engine with everything above in hand.
 
 ## Open questions
 
-Answer inline; I will fold these into the plan.
-
-> **Q1** — Where should LiteEngine live? A new repo alongside `physics`, a second solution inside the
-> `physics` repo, or somewhere else? (This file is currently parked in `physics/docs/`; easy to move.)
->
-> **Your answer:**
+Answer inline; I will fold these into the plan. Q1 (where `LiteEngine` lives) is settled: this
+repository, under `engine/`, beside `physics/`. The other numbers are kept so that notes which cite
+them stay right.
 
 > **Q2** — How deep into Phase C? A full software rasterizer is the highest-value part of this plan
 > and also the largest — realistically several evenings per lesson. The alternative is a reduced
@@ -243,7 +240,7 @@ Answer inline; I will fold these into the plan.
 > **Your answer:**
 
 > **Q4** — Is engine-side contribution to Stride an explicit goal, or is deep understanding for
-> toolkit work enough? It changes how much time Phase G deserves.
+> toolkit work enough? It changes how much time Phases G and H deserve.
 >
 > **Your answer:**
 

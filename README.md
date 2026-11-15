@@ -10,10 +10,12 @@ conservation law, or the output of a real engine. Not "looks right".
 
 | Subject | Building | Reference text | Status |
 |---|---|---|---|
-| [Physics](physics/LEARNING_PLAN.md) | `LitePhysics` — a 2D physics engine | Box2D.NET, then BepuPhysics | 🟡 Lesson 1 |
+| [Physics](physics/LEARNING_PLAN.md) | `LitePhysics` — a 2D physics engine | box2d-lite and Box2D.NET, then BepuPhysics | 🟡 Lesson 1 |
 | [Engine](engine/LEARNING_PLAN.md) | `LiteEngine` — game engine fundamentals | Stride | ⚪ Planned |
 
 Status: ⚪ planned · 🟡 in progress · 🟢 complete
+
+Where I am right now, what is next and what each finished lesson taught me: **[now.md](now.md)**.
 
 ## Why this exists
 
@@ -37,6 +39,8 @@ Reading about it did not stick. Building it does.
 └── tests/                 xunit tests - the "lab" where behaviour is verified
 ```
 
+`gamedev.slnx` at the root holds every project of every subject, for a build of everything.
+
 Subjects are independent, but they are allowed to meet: the engine plan hosts `LitePhysics` inside
 `LiteEngine` once both are far enough along.
 
@@ -54,3 +58,5 @@ Subjects are independent, but they are allowed to meet: the engine plan hosts `L
 
 - [Glossary](docs/glossary.md) — terms that recur across subjects
 - [Reference shelf](docs/reference-shelf.md) — books, courses and source to read, per subject
+- [Now](now.md) — the current lesson, the queue and the lessons learned
+- [AI assistant instructions](.github/copilot-instructions.md) — the teaching contract and the conventions

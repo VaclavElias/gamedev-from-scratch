@@ -1,7 +1,7 @@
 # Physics — LitePhysics
 
-A 2D physics engine built from scratch, using **Box2D.NET as the reference text** and **BepuPhysics as
-the advanced architecture chapter**.
+A 2D physics engine built from scratch, using **Box2D as the reference text** (`box2d-lite` for the
+solver, Box2D.NET for collision detection) and **BepuPhysics as the advanced architecture chapter**.
 
 📋 **[LEARNING_PLAN.md](LEARNING_PLAN.md)** — the curriculum: phases, lessons, and checkpoints.
 

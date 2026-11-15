@@ -1,5 +1,7 @@
 <Solution>
-  <Project Path="physics/samples/Lesson01.Integration/Lesson01.Integration.csproj" />
-  <Project Path="physics/src/LitePhysics/LitePhysics.csproj" />
-  <Project Path="physics/tests/LitePhysics.Tests/LitePhysics.Tests.csproj" />
+  <Folder Name="/physics/">
+    <Project Path="physics/samples/Lesson01.Integration/Lesson01.Integration.csproj" />
+    <Project Path="physics/src/LitePhysics/LitePhysics.csproj" />
+    <Project Path="physics/tests/LitePhysics.Tests/LitePhysics.Tests.csproj" />
+  </Folder>
 </Solution>

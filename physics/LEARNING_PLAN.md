@@ -1,16 +1,17 @@
 # 2D Physics Engine — Learning Plan
 
 Goal: learn 2D game physics deeply by **building a lite engine from scratch**
-("LitePhysics"), using **Box2D.NET as the reference text** and **BepuPhysics as
-the advanced architecture chapter**, so that every lesson can later become a
+("LitePhysics"), using **Box2D as the reference text** (`box2d-lite` for the
+solver, Box2D.NET for collision detection) and **BepuPhysics as the advanced
+architecture chapter**, so that every lesson can later become a
 Stride Community Toolkit example.
 
 ## How we work
 
 - **You write the code.** Each lesson I give you: the theory (with the
   derivations, not just formulas), a small spec of what to implement, and
-  measurable checkpoints. You implement it in this repo and push.
-- **I review and explain.** After you push, I review the code, run it, and we
+  measurable checkpoints. You implement it in this repo and say when it runs.
+- **I review and explain.** Then I review the code, run it, and we
   debug the physics together. The bugs are the curriculum — sinking boxes and
   jittering stacks teach more than any article.
 - **Every lesson ends with a demo** — first as console output/tests, later
@@ -19,7 +20,7 @@ Stride Community Toolkit example.
   solution; a spring has one too. We test the simulation against math, not
   against "looks right".
 
-Repo layout:
+Layout, relative to `physics/`:
 
 ```
 src/LitePhysics/            engine library (grows lesson by lesson)
@@ -49,7 +50,8 @@ The heart of every engine is three lines of code; the lesson is *which* three.
      *why* the error is O(dt)).
   2. Spring-mass oscillator: energy bounded with symplectic Euler, grows with
      explicit Euler (print the energy every simulated second).
-  3. A static body never moves no matter what forces you apply.
+  3. A static body never moves no matter what forces you apply — and you can say which term of
+     the step would have moved it (gravity is an acceleration, so `invMass = 0` does not cancel it).
 
 ### Lesson 2 — The fixed timestep and the game loop
 Physics wants a fixed `dt`; rendering delivers a variable one.
@@ -59,7 +61,8 @@ Physics wants a fixed `dt`; rendering delivers a variable one.
 - Determinism: same inputs → bit-identical results, and why engines care
   (replays, networking, debugging).
 - **Checkpoint**: run the same simulation with frame times jittered randomly;
-  positions after 10 simulated seconds are bit-identical.
+  positions after the same number of steps (600 at 60 Hz, 10 simulated
+  seconds) are bit-identical. Compare by step count, not by wall-clock time.
 
 ## Phase B — Collision detection
 
@@ -67,6 +70,10 @@ Physics wants a fixed `dt`; rendering delivers a variable one.
 - Circles and AABBs; why "does anything touch anything" is O(n²) and how a
   **spatial hash** fixes it (we pick spatial hash over BVH — much easier to
   write, great for learning; Box2D's dynamic BVH is the "further reading").
+- A third shape, static only: the **half-plane** (a point and a normal). It is
+  the floor, the walls and, tilted, the slope of Lesson 6 — a tilted box would
+  need rotation, which waits for Lesson 8. It is unbounded, so it stays out of
+  the spatial hash and is tested against every body.
 - **Checkpoint**: 5,000 bodies, broad phase returns the same pairs as the
   brute-force check, measurably faster.
 
@@ -74,10 +81,11 @@ Physics wants a fixed `dt`; rendering delivers a variable one.
 The geometric core of the engine.
 
 - Circle–circle (trivial), circle–box (closest point), box–box via the
-  **Separating Axis Theorem**.
-- What a **contact** really is: point(s), normal, penetration depth — and why
-  a box resting on the ground needs **two** contact points (a manifold), not
-  one, or it tips over.
+  **Separating Axis Theorem**; circle and box against the half-plane (a
+  signed distance, the easiest pair of all).
+- What a **contact** really is: point(s), normal, penetration depth. Build
+  the manifold with room for **two** points now; why a resting box needs both
+  is Lesson 8's question, because without rotation a box cannot rock.
 - **Checkpoint**: a table-driven test suite of shape pairs with known
   penetrations/normals; all pass.
 
@@ -98,8 +106,9 @@ The single most important derivation in game physics.
 ### Lesson 6 — Friction
 - Coulomb friction as a **tangent impulse clamped by the normal impulse**
   (the friction cone).
-- **Checkpoint**: a box on a slope stays put below the friction angle and
-  slides above it — matching `tan(θ) = μ` from school physics.
+- **Checkpoint**: a box on a slope (a tilted half-plane) stays put below the
+  friction angle and slides above it — matching `tan(θ) = μ` from school
+  physics.
 
 ### Lesson 7 — Sequential impulses, stacking, and stability
 Where naive engines die and real ones are born. This is Erin Catto's
@@ -111,7 +120,12 @@ signature contribution.
   **slop**; accumulated impulses and clamping; **warm starting**.
 - **Checkpoint**: a 10-box stack stands still without jitter or sinking.
   (This is the "hello world" of solver quality — expect to fail it first,
-  that's the lesson.)
+  that's the lesson.) Without rotation this is the easy half: the boxes
+  cannot rock, so the stack is close to a one-dimensional problem. Lesson 8
+  runs it again.
+- **Answer key**: `box2d-lite`, which is this lesson in about a thousand
+  lines. Box2D.NET ports Box2D 3, whose solver has since moved to soft
+  constraints and sub-stepping; read it afterwards, as "what changed since".
 
 ## Phase D — Rotation
 
@@ -122,8 +136,15 @@ Everything from Lessons 1–7 again, but with torque.
   mass); the 2D "cross product" scalar trick.
 - Impulses applied at a contact point now cause spin: the full 2D contact
   impulse with rotational terms.
-- **Checkpoint**: a box dropped on its corner tips over and settles flat; a
-  ball with friction rolls (spin matches surface speed).
+- Oriented boxes: SAT again, with the box's own axes, and a **two-point
+  manifold** from clipping. Now a resting box needs both points: give it one
+  and watch it rock.
+- **Checkpoints**:
+  1. A box dropped on its corner tips over and settles flat; a ball with
+     friction rolls (spin matches surface speed).
+  2. The 10-box stack of Lesson 7 again, with rotation on: it stands without
+     jitter, sinking or leaning. Then drop the manifold to one point and
+     record what happens.
 
 ## Phase E — Constraints and joints
 
@@ -160,17 +181,10 @@ Now that the physics is understood, study how Bepu makes it fast.
 
 ---
 
-## Reference shelf (in reading order)
+## Reference shelf
 
-- Randy Gaul, *How to Create a Custom 2D Physics Engine* (4-part tutorial) —
-  companion for Phases A–C.
-- Erin Catto, *Sequential Impulses* GDC slides (2006+) — companion for
-  Lesson 7; his other GDC talks for Lessons 8–9.
-- Ian Millington, *Game Physics Engine Development* — the book version of
-  Phases A–D.
-- Glenn Fiedler, *Fix Your Timestep* — Lesson 2.
-- Box2D.NET source — keep open from Lesson 4 onward as the "answer key".
-- BepuPhysics v2 source + its documentation on solver design — Lesson 10.
+The reading list, in the order it becomes useful, is the Physics section of the shared
+[reference shelf](../docs/reference-shelf.md).
 
 ## Ground rules
 
