@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "items": [
+    {
+      "name": "now.md",
+      "path": "now.md"
+    },
+    {
+      "name": "glossary.md",
+      "path": "docs\\glossary.md"
+    }
+  ]
+}

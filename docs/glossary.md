@@ -1,6 +1,6 @@
 # Glossary
 
-Terms that recur across subjects, defined once. Kept short on purpose — the depth lives in the lesson
+Terms that recur across subjects, defined once. Kept short on purpose - the depth lives in the lesson
 notes; this is for "wait, which one is that again?".
 
 Add to it whenever a term costs more than a moment to recall.
@@ -23,7 +23,7 @@ Add to it whenever a term costs more than a moment to recall.
 | **Local space** | Coordinates relative to an object's own origin. |
 | **World space** | Coordinates relative to the scene origin. |
 | **View space** | World rotated and translated so the camera sits at the origin looking down an axis. |
-| **Clip space** | After the projection matrix, before the perspective divide. Homogeneous — the `w` still matters. |
+| **Clip space** | After the projection matrix, before the perspective divide. Homogeneous - the `w` still matters. |
 | **NDC** | Normalised device coordinates: clip space divided by `w`. x,y in [-1,1]; z in [0,1] in D3D convention. |
 | **Screen space** | NDC mapped to pixels via the viewport. |
 | **Basis vectors** | Where the object's x, y, z axes point in the parent space. A transform matrix holds them: as its columns in the column-vector convention, as its rows in the row-vector convention of Stride and `System.Numerics`. |

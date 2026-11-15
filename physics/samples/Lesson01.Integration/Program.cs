@@ -1,4 +1,4 @@
-// Lesson 1 — Bodies, forces, and integration
+// Lesson 1 - Bodies, forces, and integration
 //
 // See docs/lessons/lesson-01-integration.md for the theory and the spec.
 //
@@ -14,4 +14,4 @@
 //
 // Then say when it runs, and I will review.
 
-Console.WriteLine("Lesson 1 — implement LitePhysics, then run the projectile and spring experiments here.");
+Console.WriteLine("Lesson 1 - implement LitePhysics, then run the projectile and spring experiments here.");
