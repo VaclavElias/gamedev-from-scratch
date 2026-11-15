@@ -194,5 +194,3 @@ The reading list, in the order it becomes useful, is the Physics section of the 
   is allowed and encouraged.
 - **Every formula gets derived once** in the lesson notes before it's allowed
   into the code.
-- Expect Lessons 1–6 to move fast with your C# background; Lesson 7 is where
-  we slow down on purpose.

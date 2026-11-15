@@ -62,11 +62,7 @@ One line swapped. This scheme is **symplectic**: it approximately conserves
 energy over long runs (it preserves the geometric structure of the underlying
 Hamiltonian system). A spring stays bounded forever — bounded, not constant:
 the energy wobbles by a few percent around the true value and never trends.
-Box2D and Bepu both use this. The lesson lands when you print the energy from both and watch one drift
-up while the other holds.
-
-> Spoiler-free for now: *why* symplectic Euler conserves energy is the thing
-> we'll discuss after you've measured it.
+Box2D and Bepu both use this.
 
 ## Error: what "O(dt)" means and why we care
 

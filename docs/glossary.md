@@ -1,9 +1,6 @@
 # Glossary
 
-Terms that recur across subjects, defined once. Kept short on purpose - the depth lives in the lesson
-notes; this is for "wait, which one is that again?".
-
-Add to it whenever a term costs more than a moment to recall.
+Terms that recur across subjects, defined once. The depth lives in the lesson notes.
 
 ## Time and the loop
 

@@ -215,8 +215,6 @@ The reading list, in the order it becomes useful, is the Engine section of the s
 - **Compare against Stride at every opportunity** — it is right there, and "why does mine differ?" is
   the most productive question in the plan.
 - **float, not double**, for the same reasons as the physics plan.
-- Expect Phase C to be the hardest and the most rewarding. Expect Phase A to go fast — you have
-  already done most of Lesson 1 in anger.
 
 ---
 

@@ -165,6 +165,9 @@ When a claim turns out wrong, correct it everywhere it was written.
   be long. `README.md` files and `now.md` are compact.
 - British spelling in prose ("normalise", "rasterisation", "behaviour"); identifiers keep their own.
 - Short sentences. Define a term once, in `docs/glossary.md` when it recurs across lessons.
+- No asides about the page itself: why it is short, what it is for, when to add to it, how a lesson
+  will feel. A page says what it holds and stops. Rules for keeping a page up to date belong in this
+  file, not on the page.
 - A book, a course or a source file joins `docs/reference-shelf.md` only when a lesson uses it.
   Check that a link still resolves before adding it.
 
